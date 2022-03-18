@@ -20,19 +20,34 @@ def quadrato():
 def triangolo():
     #Triangolo
     for i in range(3):
-        robot.straight(150)
-        robot.turn(60)
+        robot.straight(120)
+        robot.turn(120)
+
+#Costruisce un poligono regolare dato l'angolo e la lunghezza del lato
+def poligonoRegolare(lati, angolo, lunghezza):
+    for i in range(lati):
+        robot.straight(lunghezza)
+        robot.turn(angolo)
 
 ######### Inizializzazione oggetti #################
 
+# The DriveBase is composed of two motors, with a wheel on each motor.
+# The wheel_diameter and axle_track values are used to make the motors
+# move at the correct speed when you give a motor command.
+# The axle track is the distance between the points where the wheels
+# touch the ground.
 ev3 = EV3Brick() #Inizializza mattoncino
 left_wheel = Motor(Port.C) #Inizializza motore sinistro
 right_wheel = Motor(Port.B) #Inizializza motore sinistro
 robot = DriveBase(right_wheel, left_wheel, 55.5, 104) #Inizializza motore
+straight_speed = 400 #mm/S
+turn_rate = 360 #deg/s
 
 ######### Main #################
+robot.settings(straight_speed,turn_rate)
 quadrato() #movimento a forma di quadrato
 triangolo()
+poligonoRegolare(6, 60, 80) #esagono
 
 
 
