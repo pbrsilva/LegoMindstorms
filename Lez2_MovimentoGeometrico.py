@@ -29,6 +29,17 @@ def poligonoRegolare(lati, angolo, lunghezza):
         robot.straight(lunghezza)
         robot.turn(angolo)
 
+#Costruisce un poligono regolare in cui le rotazioni sono controllate dal sensore giroscopico
+def poligonoRegolareGyro(lati, angolo, lunghezza):
+    for i in range(lati):
+        robot.stop()
+        left_wheel.brake()
+        right_wheel.brake()
+        robot.straight(lunghezza)
+        gyro_sens.reset_angle(0)
+        while gyro_sens.angle() < angolo:
+            robot.drive(drive_speed, drive_turn_rate)
+
 ######### Inizializzazione oggetti #################
 
 # The DriveBase is composed of two motors, with a wheel on each motor.
@@ -42,12 +53,21 @@ right_wheel = Motor(Port.B) #Inizializza motore sinistro
 robot = DriveBase(right_wheel, left_wheel, 55.5, 104) #Inizializza motore
 straight_speed = 400 #mm/S
 turn_rate = 360 #deg/s
+drive_speed = 0 #mm/s
+drive_turn_rate = 80 #deg/s
 
 ######### Main #################
 robot.settings(straight_speed,turn_rate)
+robot.drive(drive_speed, drive_turn_rate)
+wait(4000)
 quadrato() #movimento a forma di quadrato
 triangolo()
 poligonoRegolare(6, 60, 80) #esagono
+
+# Movimenti geometrici con sensore giroscopico
+gyro_sens = GyroSensor(Port.S2)
+poligonoRegolareGyro(4, 85, 100)
+
 
 
 
